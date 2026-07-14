@@ -8,7 +8,7 @@ Se um item não tiver `Localização` preenchível, não deveria estar na docume
 | PRD-CTX-01 | docs/PRD.md | Contexto | Três clientes B2B (Atlas, MaxDistribuição, Nova Cargo) pedem notificação | TRANSCRICAO | [09:00] Marcos |
 | PRD-CTX-02 | docs/PRD.md | Problema | Clientes fazem polling em GET /orders | TRANSCRICAO | [09:00] Marcos |
 | PRD-CTX-03 | docs/PRD.md | Risco comercial | Atlas pode migrar se não houver entrega no trimestre | TRANSCRICAO | [09:00] Marcos |
-| PRD-NFR-LAT | docs/PRD.md | Requisito Não Funcional | “Tempo real” = latência abaixo de 10 segundos | TRANSCRICAO | [09:02] Marcos |
+| PRD-NFR-01 | docs/PRD.md | Requisito Não Funcional | Latência percebida &lt; 10s (poll worker 2s; “tempo real” na prática) | TRANSCRICAO | [09:02] Marcos; [09:09–09:10] Diego, Larissa |
 | PRD-SCOPE-OUTBOUND | docs/PRD.md | Escopo | Webhooks somente outbound (nós → cliente) | TRANSCRICAO | [09:02] Marcos |
 | PRD-OBJ-01 | docs/PRD.md | Objetivo / Métrica | Meta p95 &lt; 10s da commit à primeira tentativa | TRANSCRICAO | [09:02] Marcos |
 | PRD-OBJ-02 | docs/PRD.md | Objetivo / Métrica | Prazo estimado de 3 sprints | TRANSCRICAO | [09:46] Larissa |
@@ -16,6 +16,8 @@ Se um item não tiver `Localização` preenchível, não deveria estar na docume
 | PRD-OOS-02 | docs/PRD.md | Fora de escopo | Dashboard visual fora; só endpoints API | TRANSCRICAO | [09:40] Larissa |
 | PRD-OOS-03 | docs/PRD.md | Fora de escopo | Rate limiting de saída observar depois | TRANSCRICAO | [09:39] Larissa |
 | PRD-OOS-04 | docs/PRD.md | Fora de escopo | Arquivamento outbox 30 dias fora do escopo | TRANSCRICAO | [09:08] Diego |
+| PRD-OOS-05 | docs/PRD.md | Fora de escopo | Multi-worker e ordering global adiados | TRANSCRICAO | [09:12–09:14] Diego, Bruno, Larissa |
+| PRD-DEP-01 | docs/PRD.md | Dependência | Documentação de integração no portal (HMAC, dedup) — PM | TRANSCRICAO | [09:45] Marcos |
 | PRD-FR-01 | docs/PRD.md | Requisito Funcional | POST criar webhook; secret gerada; customerId no body/path | TRANSCRICAO | [09:31] Marcos |
 | PRD-FR-02 | docs/PRD.md | Requisito Funcional | PATCH/DELETE/GET de configuração | TRANSCRICAO | [09:33] Bruno |
 | PRD-FR-03 | docs/PRD.md | Requisito Funcional | Filtro de eventos por lista de status | TRANSCRICAO | [09:33] Marcos |
@@ -88,7 +90,7 @@ Se um item não tiver `Localização` preenchível, não deveria estar na docume
 | ADR-004-ALT | docs/adrs/ADR-004-garantia-at-least-once.md | Trade-off | Exactly-once descartado por complexidade | TRANSCRICAO | [09:25] Diego |
 | ADR-005 | docs/adrs/ADR-005-worker-polling-processo-separado.md | Decisão | Processo separado + polling 2s + single-worker | TRANSCRICAO | [09:10] Larissa |
 | ADR-005-ALT | docs/adrs/ADR-005-worker-polling-processo-separado.md | Trade-off | Trigger/NOTIFY improvisado descartado | TRANSCRICAO | [09:09] Diego |
-| ADR-005-ENTRY | docs/adrs/ADR-005-worker-polling-processo-separado.md | Decisão | Entry src/worker.ts e npm run worker | TRANSCRICAO | [09:11] Larissa |
+| ADR-005-ENTRY | docs/adrs/ADR-005-worker-polling-processo-separado.md | Decisão | Entry a criar src/worker.ts e npm run worker | TRANSCRICAO | [09:11] Larissa |
 | ADR-006 | docs/adrs/ADR-006-reuso-padroes-projeto.md | Decisão | Módulo src/modules/webhooks no padrão existente | TRANSCRICAO | [09:27] Bruno |
 | ADR-006-CODE-01 | docs/adrs/ADR-006-reuso-padroes-projeto.md | Integração | Referência AppError e error middleware | CODIGO | src/shared/errors/app-error.ts |
 | ADR-006-CODE-02 | docs/adrs/ADR-006-reuso-padroes-projeto.md | Integração | Referência requireRole / authenticate | CODIGO | src/middlewares/auth.middleware.ts |
@@ -99,8 +101,9 @@ Se um item não tiver `Localização` preenchível, não deveria estar na docume
 
 | Critério | Resultado |
 | --- | --- |
-| Linhas com Fonte = `TRANSCRICAO` e timestamp `[hh:mm] Nome` | maioria das linhas (bem acima de 70%) |
-| Linhas com Fonte = `CODIGO` e caminho real | ≥ 5 (FDD-INT-* e ADR-006-CODE-*) |
+| Linhas com Fonte = `TRANSCRICAO` e timestamp `[hh:mm] Nome` | ≈83% das linhas (≥70% exigido) |
+| Linhas com Fonte = `CODIGO` e caminho real | 15 linhas (≥5 exigido; FDD-INT-* e ADR-006-CODE-*) |
+| Itens identificáveis nos docs com linha no tracker | ≥80% (FRs/NFRs/OOS/RFC/FDD/ADRs mapeados; IDs alinhados aos docs) |
 | Itens inventados sem origem | nenhum — ausência de Localização seria motivo de remoção |
 
 Atualize este arquivo sempre que um requisito/decisão novo for adicionado aos docs.
