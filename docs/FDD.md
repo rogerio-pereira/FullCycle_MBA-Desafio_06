@@ -73,7 +73,7 @@ loop a cada 2s:
             ou move para DLQ se attempts >= 5
 ```
 
-Entry: `src/worker.ts` → `src/modules/webhooks/webhook.worker.ts` (ou `webhook.processor.ts`). `PrismaClient` **novo** no processo do worker.
+Entry **a criar** na implementação: `src/worker.ts` → `src/modules/webhooks/webhook.worker.ts` (ou `webhook.processor.ts`). `PrismaClient` **novo** no processo do worker. (Hoje só existe o entry da API em `src/server.ts`.)
 
 ### 4.3 Retry
 
@@ -185,8 +185,23 @@ Content-Type: application/json
 }
 ```
 
-**Response `200`:** objeto `data` atualizado (sem secret).
+**Response `200`**
 
+```json
+{
+  "data": {
+    "id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+    "customerId": "550e8400-e29b-41d4-a716-446655440000",
+    "url": "https://atlas.example.com/hooks/orders/v2",
+    "events": ["PAID", "SHIPPED", "DELIVERED"],
+    "active": false,
+    "createdAt": "2026-07-14T12:00:00.000Z",
+    "updatedAt": "2026-07-14T12:10:00.000Z"
+  }
+}
+```
+
+Secret **não** retorna no PATCH.  
 **Erros:** `404` `WEBHOOK_NOT_FOUND`; `400` `WEBHOOK_INVALID_URL`.
 
 ---
