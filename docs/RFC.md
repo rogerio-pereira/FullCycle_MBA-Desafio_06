@@ -1,5 +1,7 @@
 # RFC — Sistema de Webhooks de Notificação de Pedidos
 
+## Metadados
+
 | Campo | Valor |
 | --- | --- |
 | **Autor** | Larissa (Tech Lead) |
@@ -37,7 +39,7 @@ A mudança de status (`OrderService.changeStatus`) já é uma transação pesada
 
 1. **Configuração**: CRUD de webhooks por `customer_id` (URL HTTPS, secret gerada, filtro de status, ativo/inativo), autenticação JWT; filtro aplicado **na inserção** na outbox.
 2. **Publicação**: em `changeStatus`, função `publishWebhookEvent(tx, …)` grava evento com **payload snapshot** e UUID, só se existir webhook interessado naquele status.
-3. **Despacho**: processo `src/worker.ts` (+ lógica em `src/modules/webhooks/`) faz polling, envia HTTP com headers assinados, timeout 10s.
+3. **Despacho**: processo a criar `src/worker.ts` (+ lógica em `src/modules/webhooks/`) faz polling, envia HTTP com headers assinados, timeout 10s.
 4. **Resiliência**: 5 tentativas (1m/5m/30m/2h/12h); depois `webhook_dead_letter`; replay admin `POST /admin/webhooks/dead-letter/:id/replay` com role `ADMIN` e log de auditoria.
 5. **Observabilidade do cliente**: `GET /webhooks/:id/deliveries` (últimas entregas: sucesso/falha, payload, response, tempo).
 6. **Segurança**: HMAC-SHA256, secret por endpoint, rotação com grace 24h, HTTPS only, payload ≤ 64KB.
