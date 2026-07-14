@@ -90,7 +90,10 @@ Foram necessários vários ciclos de geração/revisão. Principais correções:
 4. **Integração com código**  
    Conferência manual de caminhos (`order.service.ts`, `auth.middleware.ts`, `error.middleware.ts`, `app-error.ts`, `schema.prisma`, etc.) para garantir que nenhum arquivo citado é inexistente — critério de aceite de consistência geral.
 
-**Iterações principais até o pacote atual:** ~4 ciclos (extração → ADRs/RFC → FDD/PRD → Tracker/README + checklist).
+5. **Referência cruzada final (checklist literal)**  
+   Ainda faltavam: `PRD-NFR-01` alinhado no Tracker (antes `PRD-NFR-LAT`), `PRD-OOS-05` (multi-worker), headings `## Metadados` / `## Status`, e marcar `src/worker.ts` como **a criar** (não como arquivo já existente).
+
+**Iterações principais até o pacote atual:** ~5 ciclos (extração → ADRs/RFC → FDD/PRD → Tracker/README → checklist cruzada de aceite).
 
 ## Como navegar a entrega
 
@@ -129,7 +132,7 @@ Código da aplicação (`src/`, `prisma/`, `tests/`) permanece intocado e serve 
 
 # Aprendizado
 
-Notas do que ficou claro ao produzir este pacote com IA a partir da transcrição e do código legado.
+Notas do que ficou claro ao produzir este pacote com IA a partir da transcrição e do código legado — e do que a referência cruzada final ainda revelou.
 
 ## Sobre o papel de cada documento
 
@@ -165,9 +168,20 @@ Identificar o que **não** entra importa tanto quanto o que entra:
 - Commits por artefato ajudam a revisar e reverter um documento sem misturar tudo.
 - A IA acelera redação; o valor do humano está em classificar falas, recusar invenção e amarrar cada afirmação a uma origem.
 
+## Referência cruzada final (checklist de aceite)
+
+Na varredura documento ↔ enunciado ↔ Tracker, o conteúdo já cobria os mínimos — mas ainda havia buracos de **consistência**:
+
+- **IDs desalinhados**: o PRD tinha `NFR-01`, o Tracker tinha `PRD-NFR-LAT`. Se o ID não bate, o cruzamento falha mesmo com o conteúdo certo.
+- **Fora de escopo incompleto no Tracker**: multi-worker estava no PRD e faltava linha (`PRD-OOS-05`).
+- **Checklist literal**: informações presentes sem o heading exigido (`## Metadados` no RFC, `## Status` nos ADRs) podem falhar em leitura automática do enunciado.
+- **Arquivo citado ≠ arquivo existente**: `src/worker.ts` é decisão da call, mas **ainda não existe** no repo. Em docs, marcar como “a criar” e usar caminhos reais só na coluna `CODIGO`.
+- **Cobertura medida > sensação**: quantificar % `TRANSCRICAO`/`CODIGO` no Tracker (aqui ≈83% / 15 linhas) evita achar que “maioria” basta.
+
 ## Checklist mental para próximos design docs
 
 1. Separar decidido / adiado / em aberto antes de escrever prose.
-2. Nomear arquivos reais de integração (não “o service de orders”).
-3. Preencher Tracker em paralelo; buraco na Localização = alarme.
-4. Revisar seções de “fora de escopo” com o mesmo rigor dos FRs.
+2. Nomear arquivos reais de integração (não “o service de orders”); marcar explícito o que ainda será criado.
+3. Preencher Tracker em paralelo; buraco na Localização = alarme; IDs iguais aos dos docs.
+4. Revisar seções de “fora de escopo” com o mesmo rigor dos FRs — item a item no Tracker.
+5. Antes do push: checklist de aceite do enunciado *literalmente* (headings + contagens), não só “conteúdo parece ok”.
