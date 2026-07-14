@@ -124,3 +124,50 @@ Leitura sugerida:
 ```
 
 Código da aplicação (`src/`, `prisma/`, `tests/`) permanece intocado e serve apenas como referência de integração.
+
+---
+
+# Aprendizado
+
+Notas do que ficou claro ao produzir este pacote com IA a partir da transcrição e do código legado.
+
+## Sobre o papel de cada documento
+
+- **PRD** responde *por que / o quê* (problema, escopo, métricas). Não deve detalhar retry intervals nem shape de header.
+- **RFC** responde *como pretendemos resolver* e deixa abertos; é documento de review, não manual de implementação.
+- **ADR** congela *uma* decisão com trade-off. Se a call fechou seis decisões centrais, seis ADRs deixam o esqueleto explícito.
+- **FDD** é o “pegar e codar”: fluxos, contratos, erros, integração com arquivos reais.
+- **Tracker** não é documento de mercado; é rede de segurança contra alucinação. Se não há `[hh:mm] Nome` ou caminho de arquivo, o item provavelmente não deveria existir.
+
+Duplicar o mesmo nível de detalhe entre RFC e FDD foi o erro mais fácil de cometer — e o mais importante de corrigir.
+
+## O que a reunião ensinou (além do que ela “aprovou”)
+
+Identificar o que **não** entra importa tanto quanto o que entra:
+
+- E-mail de alerta, dashboard, rate limiting de saída e multi-worker foram mencionados e **explicitamente** adiados.
+- Prompt genérico (“gere o PRD da feature”) puxa esses itens de volta para o escopo. Prompt dirigido pedindo “descartados / adiados / em aberto” com timestamp evita isso.
+
+## Outbox + código existente
+
+- A garantia de consistência não é “chamar o webhook depois”; é inserir na outbox **dentro** da mesma `$transaction` de `changeStatus` (`order.service.ts`).
+- Síncrono HTTP na TX foi descartado com razão clara: disponibilidade do cliente não pode definir o destino do pedido.
+- Reusar `AppError`, Pino, Zod e `requireRole` não é estética: reduz superfície nova e encaixa no error middleware que já existe.
+
+## At-least-once na prática
+
+- Retries + timeout + replay de DLQ **implicam** entrega duplicada possível.
+- `X-Event-Id` empurra idempotência para o cliente; documentar isso no portal (PM) é requisito de produto, não detalhe opcional.
+
+## Uso de IA neste desafio
+
+- Ordem boa: explorar código/transcrição → ADRs → RFC → FDD → PRD → Tracker → README.
+- Commits por artefato ajudam a revisar e reverter um documento sem misturar tudo.
+- A IA acelera redação; o valor do humano está em classificar falas, recusar invenção e amarrar cada afirmação a uma origem.
+
+## Checklist mental para próximos design docs
+
+1. Separar decidido / adiado / em aberto antes de escrever prose.
+2. Nomear arquivos reais de integração (não “o service de orders”).
+3. Preencher Tracker em paralelo; buraco na Localização = alarme.
+4. Revisar seções de “fora de escopo” com o mesmo rigor dos FRs.
