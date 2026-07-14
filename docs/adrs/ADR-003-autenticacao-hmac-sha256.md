@@ -1,6 +1,9 @@
 # ADR-003: Autenticação HMAC-SHA256 com secret por endpoint
 
-- **Status:** Aceito
+## Status
+
+Aceito
+
 - **Data:** derivado da reunião técnica documentada em `TRANSCRICAO.md`
 - **Decisores:** Sofia (Segurança), Larissa (Tech Lead), Bruno (Pedidos), Diego (Plataforma)
 

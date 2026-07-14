@@ -1,6 +1,9 @@
 # ADR-005: Worker em processo separado com polling
 
-- **Status:** Aceito
+## Status
+
+Aceito
+
 - **Data:** derivado da reunião técnica documentada em `TRANSCRICAO.md`
 - **Decisores:** Diego (Plataforma), Larissa (Tech Lead), Bruno (Pedidos), Marcos (PM)
 
@@ -10,7 +13,7 @@ Eventos na outbox precisam ser despachados sem acoplar o ciclo de vida ao proces
 
 ## Decisão
 
-1. Worker como **processo Node separado** (entry point `src/worker.ts`, script `npm run worker`), **não** embutido na mesma instância da API (`src/server.ts`).
+1. Worker como **processo Node separado** (entry point a criar `src/worker.ts`, script `npm run worker`), **não** embutido na mesma instância da API (`src/server.ts`, já existente).
 2. Leitura da outbox por **polling a cada 2 segundos**: buscar eventos pendentes mais antigos em batch pequeno, processar, marcar.
 3. Mesmo banco e mesma stack (Prisma), mas **nova instância de `PrismaClient` por processo**.
 4. Fase 1: **single-worker**; ordenação implícita por `created_at` / `order_id`. Ordering global e multi-worker (partição por `order_id` ou lock pessimista) ficam como limitação conhecida / futuro.

@@ -11,4 +11,4 @@ Registros das decisões arquiteturais da feature **Sistema de Webhooks de Notifi
 | [ADR-005](./ADR-005-worker-polling-processo-separado.md) | Worker em processo separado com polling | Aceito |
 | [ADR-006](./ADR-006-reuso-padroes-projeto.md) | Reuso dos padrões existentes do projeto | Aceito |
 
-Formato: MADR simplificado (Status, Contexto, Decisão, Alternativas Consideradas, Consequências).
+Formato: MADR simplificado com seções `## Status`, `## Contexto`, `## Decisão`, `## Alternativas Consideradas`, `## Consequências`.

@@ -1,6 +1,9 @@
 # ADR-006: Reuso dos padrões existentes do projeto
 
-- **Status:** Aceito
+## Status
+
+Aceito
+
 - **Data:** derivado da reunião técnica documentada em `TRANSCRICAO.md`
 - **Decisores:** Bruno (Pedidos), Larissa (Tech Lead), Diego (Plataforma)
 
@@ -23,7 +26,7 @@ Implementar webhooks como módulo alinhado ao restante do código:
 | Transação em `changeStatus` | Estender `src/modules/orders/order.service.ts` para chamar `publishWebhookEvent(tx, …)` **dentro** da mesma `$transaction`. |
 | IDs UUID | Outbox e entidades novas usam UUID, alinhado a `prisma/schema.prisma`. |
 
-Lógica de processamento do worker vive no módulo (ex.: `webhook.worker.ts` / `webhook.processor.ts`), com entry point separado `src/worker.ts`.
+Lógica de processamento do worker vive no módulo (ex.: arquivos a criar `webhook.worker.ts` / `webhook.processor.ts`), com entry point separado a criar `src/worker.ts`.
 
 ## Alternativas Consideradas
 

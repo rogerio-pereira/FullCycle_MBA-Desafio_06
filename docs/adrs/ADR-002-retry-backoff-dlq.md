@@ -1,6 +1,9 @@
 # ADR-002: Política de retry com backoff e DLQ
 
-- **Status:** Aceito
+## Status
+
+Aceito
+
 - **Data:** derivado da reunião técnica documentada em `TRANSCRICAO.md`
 - **Decisores:** Larissa (Tech Lead), Diego (Plataforma), Bruno (Pedidos), Marcos (PM)
 

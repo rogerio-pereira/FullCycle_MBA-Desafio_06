@@ -1,6 +1,9 @@
 # ADR-001: Padrão Outbox no MySQL
 
-- **Status:** Aceito
+## Status
+
+Aceito
+
 - **Data:** derivado da reunião técnica documentada em `TRANSCRICAO.md`
 - **Decisores:** Larissa (Tech Lead), Diego (Plataforma), Bruno (Pedidos)
 

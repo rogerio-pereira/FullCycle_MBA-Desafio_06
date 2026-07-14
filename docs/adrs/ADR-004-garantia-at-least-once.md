@@ -1,6 +1,9 @@
 # ADR-004: Garantia at-least-once com `X-Event-Id`
 
-- **Status:** Aceito
+## Status
+
+Aceito
+
 - **Data:** derivado da reunião técnica documentada em `TRANSCRICAO.md`
 - **Decisores:** Diego (Plataforma), Sofia (Segurança), Larissa (Tech Lead), Marcos (PM)
 
